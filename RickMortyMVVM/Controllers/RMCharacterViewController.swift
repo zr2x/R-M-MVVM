@@ -14,7 +14,15 @@ final class RMCharacterViewController: UIViewController {
 
         view.backgroundColor = .systemBackground
         self.title = "Characters"
+        
+        RMService.shared.execute(.listCharactersRequest, expecting: RMGetAllCharactersResponse.self) { result in
+            switch result {
+            case .success(let success):
+                print(success.info.count)
+                print(success.info.pages)
+            case .failure(let failure):
+                print(String(describing: failure))
+            }
+        }
     }
-    
-
 }
