@@ -8,6 +8,8 @@
 import UIKit
 
 final class RMCharacterViewController: UIViewController {
+    
+    private let characterListView = CharacterListView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,14 +17,19 @@ final class RMCharacterViewController: UIViewController {
         view.backgroundColor = .systemBackground
         self.title = "Characters"
         
-        RMService.shared.execute(.listCharactersRequest, expecting: RMGetAllCharactersResponse.self) { result in
-            switch result {
-            case .success(let success):
-                print(success.info.count)
-                print(success.info.pages)
-            case .failure(let failure):
-                print(String(describing: failure))
-            }
-        }
+        view.addSubview(characterListView)
+
+    }
+    
+    // MARK: - Setup view
+    
+    private func setupView() {
+        NSLayoutConstraint.activate([
+        
+            characterListView.topAnchor.constraint(equalTo: view.topAnchor),
+            characterListView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            characterListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            characterListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
     }
 }
