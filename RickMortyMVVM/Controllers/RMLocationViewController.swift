@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  RMLocationViewController.swift
 //  RickMortyMVVM
 //
 //  Created by Искандер Ситдиков on 27.04.2024.
@@ -7,13 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class RMLocationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        view.backgroundColor = .systemBackground
+        self.title = "Locations"
     }
 
 
 }
-
