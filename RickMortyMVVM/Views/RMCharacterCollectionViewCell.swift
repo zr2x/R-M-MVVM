@@ -16,6 +16,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -42,7 +43,6 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubviews(imageView, nameLabel, statusLabel)
         setupConstraints()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -56,18 +56,31 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         statusLabel.text = nil
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        setupLayer()
+    }
+    
+    private func setupLayer() {
+        contentView.layer.cornerRadius = 10
+        contentView.layer.shadowColor = UIColor.label.cgColor
+        contentView.layer.shadowOpacity = 0.3
+        contentView.layer.shadowRadius = 4
+        contentView.layer.shadowOffset = CGSize(width: -4, height: 4)
+    }
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            statusLabel.heightAnchor.constraint(equalToConstant: 40),
-            nameLabel.heightAnchor.constraint(equalToConstant: 40),
+            statusLabel.heightAnchor.constraint(equalToConstant: 30),
+            nameLabel.heightAnchor.constraint(equalToConstant: 30),
             
-            statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
-            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3),
-            statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
+            statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 7),
+            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -7),
+            statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
 
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3),
-            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -3),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 7),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -7),
+            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor),
             
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 3),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
@@ -79,7 +92,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     public func configure(with viewModel: RMCharacterCollectionViewCellViewModel) {
         nameLabel.text = viewModel.characterName
-        statusLabel.text = viewModel.characterStatusText
+        statusLabel.text = "Status: \(viewModel.characterStatusText)"
         viewModel.fetchImage { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -89,7 +102,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
                     self.imageView.image = image
                 }
             case .failure(let error):
-                break
+                print(error)
             }
         }
     }
