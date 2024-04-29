@@ -1,5 +1,5 @@
 //
-//  CharacterListViewViewModel.swift
+//  RMCharacterListViewViewModel.swift
 //  RickMortyMVVM
 //
 //  Created by Искандер Ситдиков on 28.04.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CharacterListViewViewModel: NSObject {
+final class RMCharacterListViewViewModel: NSObject {
     
     func fetchCharacters() {
         RMService.shared.execute(.listCharactersRequest, expecting: RMGetAllCharactersResponse.self) { result in
@@ -21,15 +21,17 @@ final class CharacterListViewViewModel: NSObject {
     }
 }
 
-extension CharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterCollectionViewCell.identifire, for: indexPath) as? RMCharacterCollectionViewCell else {
+            return UICollectionViewCell.init() }
         
-        cell.backgroundColor = .green
+        let viewModel = RMCharacterCollectionViewCellViewModel(characterName: "san", characterStatus: .alive, characterImageUrl: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
+        cell.configure(with: viewModel)
         return cell
     }
     
