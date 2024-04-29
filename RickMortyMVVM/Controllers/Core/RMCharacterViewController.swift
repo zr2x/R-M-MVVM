@@ -17,13 +17,15 @@ final class RMCharacterViewController: UIViewController {
         view.backgroundColor = .systemBackground
         self.title = "Characters"
         
-        view.addSubview(characterListView)
+        
         setupView()
     }
     
     // MARK: - Setup view
     
     private func setupView() {
+        characterListView.delegate = self
+        view.addSubview(characterListView)
         NSLayoutConstraint.activate([
         
             characterListView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -32,4 +34,17 @@ final class RMCharacterViewController: UIViewController {
             characterListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
+}
+
+// MARK: RMCharacterListViewDelegate
+
+extension RMCharacterViewController: RMCharacterListViewDelegate {
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter) {
+        let viewModel = RMCharacterDetailViewViewModel(character: character)
+        let detailVC = RMCharacterDetailViewController(viewModel: viewModel)
+        detailVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    
 }
