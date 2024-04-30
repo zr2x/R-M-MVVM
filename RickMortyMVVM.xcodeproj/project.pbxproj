@@ -36,6 +36,7 @@
 		C09FC9BF2BDFEAE10092A878 /* RMCharacterDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09FC9BE2BDFEAE10092A878 /* RMCharacterDetailView.swift */; };
 		C09FC9C12BDFEB100092A878 /* RMCharacterDetailViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09FC9C02BDFEB100092A878 /* RMCharacterDetailViewViewModel.swift */; };
 		C09FC9C32BDFF5EC0092A878 /* RMFooterLoadingCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09FC9C22BDFF5EC0092A878 /* RMFooterLoadingCollectionReusableView.swift */; };
+		C09FC9C62BE0E0100092A878 /* RMImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09FC9C52BE0E0100092A878 /* RMImageLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		C09FC9BE2BDFEAE10092A878 /* RMCharacterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterDetailView.swift; sourceTree = "<group>"; };
 		C09FC9C02BDFEB100092A878 /* RMCharacterDetailViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterDetailViewViewModel.swift; sourceTree = "<group>"; };
 		C09FC9C22BDFF5EC0092A878 /* RMFooterLoadingCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMFooterLoadingCollectionReusableView.swift; sourceTree = "<group>"; };
+		C09FC9C52BE0E0100092A878 /* RMImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMImageLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 		C06C5F672BDD6A2C00FEE3F3 /* RickMortyMVVM */ = {
 			isa = PBXGroup;
 			children = (
+				C09FC9C42BE0DFFF0092A878 /* Managers */,
 				C06C5F882BDD6E6A00FEE3F3 /* App */,
 				C06C5F802BDD6CDE00FEE3F3 /* Models */,
 				C06C5F7F2BDD6CCA00FEE3F3 /* ApiClient */,
@@ -224,6 +227,14 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
+		C09FC9C42BE0DFFF0092A878 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				C09FC9C52BE0E0100092A878 /* RMImageLoader.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -308,6 +319,7 @@
 				C06C5F8F2BDD6F3E00FEE3F3 /* RMEpisodeViewController.swift in Sources */,
 				C06C5F692BDD6A2C00FEE3F3 /* AppDelegate.swift in Sources */,
 				C06C5F852BDD6E4500FEE3F3 /* RMCharacter.swift in Sources */,
+				C09FC9C62BE0E0100092A878 /* RMImageLoader.swift in Sources */,
 				C06C5F912BDD6F4B00FEE3F3 /* RMSettingsViewController.swift in Sources */,
 				C06C5FA12BDD7F2800FEE3F3 /* RMCharacterStatus.swift in Sources */,
 				C06C5F932BDD794C00FEE3F3 /* RMService.swift in Sources */,
