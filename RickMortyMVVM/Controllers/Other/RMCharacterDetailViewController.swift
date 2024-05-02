@@ -83,25 +83,20 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterPhotoCollectionViewCell.identifire, 
                                                                 for: indexPath) as? RMCharacterPhotoCollectionViewCell else {
                 return UICollectionViewCell() }
-            cell.backgroundColor = .red
             cell.configure(with: viewModel)
             return cell
         case .information(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterInfoCollectionViewCell.identifire,
                                                                 for: indexPath) as? RMCharacterInfoCollectionViewCell else {
                 return UICollectionViewCell() }
-            cell.backgroundColor = .orange
             cell.configure(with: viewModels[indexPath.row])
             return cell
         case .episodes(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.identifire, 
                                                                 for: indexPath) as? RMCharacterEpisodeCollectionViewCell else {
                 return UICollectionViewCell() }
-            cell.backgroundColor = .yellow
             cell.configure(with: viewModels[indexPath.row])
             return cell
         }
-    }
-    
-    
+    }  
 }
