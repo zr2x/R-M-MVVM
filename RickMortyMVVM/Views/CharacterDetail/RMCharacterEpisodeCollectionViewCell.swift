@@ -13,6 +13,8 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
+        contentView.layer.cornerRadius = 10
+        contentView.backgroundColor = .systemFill
     }
     
     required init?(coder: NSCoder) {
