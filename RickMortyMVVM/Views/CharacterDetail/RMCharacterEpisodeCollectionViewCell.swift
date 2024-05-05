@@ -21,7 +21,6 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .regular)
-        label.numberOfLines = 0
         return label
     }()
     

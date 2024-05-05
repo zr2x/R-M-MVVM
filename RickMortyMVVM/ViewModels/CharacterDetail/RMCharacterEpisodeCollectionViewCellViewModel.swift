@@ -13,9 +13,8 @@ protocol RMEpisodeDataRender {
     var airDate: String { get }
 }
 
-final class RMCharacterEpisodeCollectionViewCellViewModel {
-    
-    private let episodeUrl: URL?
+final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable {
+    private let episodeDataUrl: URL?
     private var isFetching = false
     private var dataBlock: ((RMEpisodeDataRender) -> Void)?
     private var episode: RMEpisode? {
@@ -27,8 +26,8 @@ final class RMCharacterEpisodeCollectionViewCellViewModel {
     
     // MARK: - Init
     
-    init(episodeUrl: URL?) {
-        self.episodeUrl = episodeUrl
+    init(episodeDataUrl: URL?) {
+        self.episodeDataUrl = episodeDataUrl
     }
     
     //MARK: - Public
@@ -43,7 +42,7 @@ final class RMCharacterEpisodeCollectionViewCellViewModel {
                 dataBlock?(model)
             }
                 return}
-        guard let url = episodeUrl,
+        guard let url = episodeDataUrl,
               let request = RMRequest(url: url)
               else { return }
         isFetching = true
@@ -57,5 +56,15 @@ final class RMCharacterEpisodeCollectionViewCellViewModel {
                 break
             }
         }
+    }
+    
+    // MARK: - Hashable
+    
+    static func == (lhs: RMCharacterEpisodeCollectionViewCellViewModel, rhs: RMCharacterEpisodeCollectionViewCellViewModel) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.episodeDataUrl?.absoluteString)
     }
 }
