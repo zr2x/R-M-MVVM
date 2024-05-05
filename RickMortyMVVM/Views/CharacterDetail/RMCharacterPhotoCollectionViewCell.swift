@@ -50,7 +50,7 @@ class RMCharacterPhotoCollectionViewCell: UICollectionViewCell {
                     self?.imageView.image = UIImage(data: data)
                 }
             case .failure(let failure):
-                break
+                print(String(describing: failure))
             }
         }
     }

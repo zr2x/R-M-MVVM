@@ -67,7 +67,7 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sectionType = viewModel.sections[section]
         switch sectionType {
-        case .photo(let viewModel):
+        case .photo:
             return 1
         case .information(let viewModels):
             return viewModels.count
@@ -99,4 +99,17 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
             return cell
         }
     }  
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let sectionType = viewModel.sections[indexPath.section]
+        switch sectionType {
+        case .photo, .information:
+            break
+        case .episodes:
+            let episodes = self.viewModel.episodes
+            let selection = episodes[indexPath.row]
+            let episodeVC = RMEpisodeDetailViewController(url: URL(string: selection))
+            navigationController?.pushViewController(episodeVC, animated: true)
+        }
+    }
 }
