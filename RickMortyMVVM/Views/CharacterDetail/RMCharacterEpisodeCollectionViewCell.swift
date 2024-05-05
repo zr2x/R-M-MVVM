@@ -30,6 +30,9 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: RMCharacterEpisodeCollectionViewCellViewModel) {
-        
+        viewModel.registerForData { data in
+            print(String(describing: data.episode))
+        }
+        viewModel.fetchEpisode()
     }
 }

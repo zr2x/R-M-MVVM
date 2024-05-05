@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RMEpisode: Codable {
+struct RMEpisode: Codable, RMEpisodeDataRender {
     let id: Int
     let name: String
     let airDate: String
@@ -15,4 +15,9 @@ struct RMEpisode: Codable {
     let characters: [String]
     let url: String
     let created: String
+    
+    enum CodingKeys: String, CodingKey {
+         case id, name, episode, characters, url, created
+         case airDate = "air_date"
+     }
 }
