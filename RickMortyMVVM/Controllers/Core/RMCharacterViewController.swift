@@ -13,26 +13,39 @@ final class RMCharacterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemBackground
-        self.title = "Characters"
-        
-        
         setupView()
+        characterListView.delegate = self
+        setupConstraints()
+        addSearchButton()
     }
     
     // MARK: - Setup view
     
     private func setupView() {
-        characterListView.delegate = self
+        view.backgroundColor = .systemBackground
+        self.title = "Characters"
         view.addSubview(characterListView)
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
-        
             characterListView.topAnchor.constraint(equalTo: view.topAnchor),
             characterListView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             characterListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             characterListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
+    }
+    
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+    
+    @objc
+    private func didTapSearch() {
+        let searchVC = RMSearchViewController(config: .init(type: .character))
+        searchVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(searchVC, animated: true)
+        
     }
 }
 

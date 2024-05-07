@@ -36,6 +36,7 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        setupLayer()
         setupConstraints()
     }
     
@@ -51,11 +52,13 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupViews() {
-        contentView.layer.cornerRadius = 10
         contentView.backgroundColor = .systemFill
-        contentView.layer.borderColor = UIColor.systemBlue.cgColor
-        contentView.layer.borderWidth = 2
         contentView.addSubviews(seasonLabel, nameLabel, airDateLabel)
+    }
+    
+    private func setupLayer() {
+        contentView.layer.borderWidth = 2
+        contentView.layer.cornerRadius = 10
     }
     
     private func setupConstraints() {
@@ -87,5 +90,6 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
             }
         }
         viewModel.fetchEpisode()
+        contentView.layer.borderColor = viewModel.borderColor.cgColor
     }
 }
