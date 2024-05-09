@@ -27,7 +27,9 @@ final class RMEpisodeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        viewModel.delegate = self
         setupConstraints()
+        viewModel.fetchEpisodeData()
     }
     
     private func setupView() {
@@ -51,5 +53,13 @@ final class RMEpisodeDetailViewController: UIViewController {
     @objc
     private func didTapShare() {
         
+    }
+}
+
+//MARK: - RMEpisodeDetailViewViewModelDelegate
+
+extension RMEpisodeDetailViewController: RMEpisodeDetailViewViewModelDelegate {
+    func didFetchEpisodeDetails() {
+        detailView.configure(with: viewModel)
     }
 }
