@@ -15,6 +15,23 @@ enum RMSettingsOption: CaseIterable {
     case apiReference
     case viewGit
     
+    var targetUrl: URL? {
+        switch self {
+        case .rateApp:
+            return nil
+        case .contactUs:
+            return URL(string: "https://www.linkedin.com/in/iskander-sitdikov-82420825b/")
+        case .terms:
+            return URL(string: "https://shorturl.at/gozQ9")
+        case .privacy:
+            return URL(string: "https://shorturl.at/bsEY2")
+        case .apiReference:
+            return URL(string: "https://rickandmortyapi.com/")
+        case .viewGit:
+            return URL(string: "https://github.com/zr2x")
+        }
+    }
+    
     var displayTitle: String {
         switch self {
         case .rateApp:
