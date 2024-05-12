@@ -42,6 +42,9 @@ final class RMLocationViewController: UIViewController {
     
     @objc
     private func didTapSearch() {
+        let searchVC = RMSearchViewController(config: .init(type: .location))
+        searchVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(searchVC, animated: true)
         
     }
 }
