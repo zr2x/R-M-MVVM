@@ -27,9 +27,15 @@ final class RMLocationViewViewModel {
         }
     }
     
-    public private(set) var cellViewModels: [RMLocationTableViewCellViewModel] = []
-    
     private var apiInfo: RMGetAllLocationsResponse.Info?
+
+    private var hasMoreResults: Bool {
+        return false
+    }
+    
+    // MARK: - Public
+    
+    public private(set) var cellViewModels: [RMLocationTableViewCellViewModel] = []
     
     public func fetchLocation() {
         RMService.shared.execute(.listLocationsRequest, 
@@ -48,8 +54,8 @@ final class RMLocationViewViewModel {
         }
     }
     
-    private var hasMoreResults: Bool {
-        return false
+    public func location(at index: Int) -> RMLocation? {
+        guard index >= locations.count else { return nil}
+        return locations[index]
     }
-    
 }

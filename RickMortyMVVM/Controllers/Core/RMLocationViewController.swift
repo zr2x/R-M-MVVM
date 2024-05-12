@@ -52,3 +52,10 @@ extension RMLocationViewController: RMLocationViewViewModelDelegate {
         primaryView.configure(with: viewModel)
     }
 }
+
+    // MARK: - RMLocationViewDelegate
+extension RMLocationViewController: RMLocationViewDelegate {
+    func rmLocationView(_ locationView: RMLocationView, didSelect location: RMLocation) {
+        
+    }
+}

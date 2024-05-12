@@ -16,15 +16,15 @@ struct RMLocationTableViewCellViewModel: Hashable {
     }
     
     public var name: String {
-        return location.name
+        return "Name: \(location.name)"
     }
     
     public var type: String {
-        return location.type
+        return "Type: \(location.type)"
     }
     
     public var dimension: String {
-        return location.dimension
+        return "Dimension: \(location.dimension)"
     }
     
     // MARK: - Hashable

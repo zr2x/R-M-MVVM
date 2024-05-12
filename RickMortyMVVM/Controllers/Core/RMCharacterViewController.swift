@@ -58,6 +58,4 @@ extension RMCharacterViewController: RMCharacterListViewDelegate {
         detailVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(detailVC, animated: true)
     }
-    
-    
 }
