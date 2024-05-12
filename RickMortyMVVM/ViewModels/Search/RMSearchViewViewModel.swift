@@ -9,7 +9,7 @@ import Foundation
 
 final class RMSearchViewViewModel {
     
-    private let config: RMSearchViewController.Config
+    let config: RMSearchViewController.Config
     // MARK: - Init
     init(config: RMSearchViewController.Config) {
         self.config = config

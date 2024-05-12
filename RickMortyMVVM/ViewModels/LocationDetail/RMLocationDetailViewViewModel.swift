@@ -76,7 +76,7 @@ final class RMLocationDetailViewViewModel {
                 switch result {
                 case .success(let model):
                     characters.append(model)
-                case .failure(let failure):
+                case .failure:
                     break
                 }
             }
