@@ -24,6 +24,7 @@ final class RMLocationViewController: UIViewController {
         setupConstraints()
         addSearchButton()
         viewModel.delegate = self
+        primaryView.delegate = self
         viewModel.fetchLocation()
     }
 
@@ -56,6 +57,8 @@ extension RMLocationViewController: RMLocationViewViewModelDelegate {
     // MARK: - RMLocationViewDelegate
 extension RMLocationViewController: RMLocationViewDelegate {
     func rmLocationView(_ locationView: RMLocationView, didSelect location: RMLocation) {
-        
+        let locationVC = RMLocationDetailViewController(location: location)
+        locationVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(locationVC, animated: true)
     }
 }

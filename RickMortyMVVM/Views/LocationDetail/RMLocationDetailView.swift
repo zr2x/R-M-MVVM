@@ -1,21 +1,21 @@
 //
-//  RMEpisodeDetailView.swift
+//  RMLocationDetailView.swift
 //  RickMortyMVVM
 //
-//  Created by Искандер Ситдиков on 05.05.2024.
+//  Created by Искандер Ситдиков on 12.05.2024.
 //
 
 import UIKit
 
-protocol RMEpisodeDetailViewDelegate: AnyObject {
-    func rmEpisodeDetailView(_ detailView: RMEpisodeDetailView, didSelect character: RMCharacter)
+protocol RMLocationDetailViewDelegate: AnyObject {
+    func rmEpisodeDetailView(_ detailView: RMLocationDetailView, didSelect character: RMCharacter)
 }
 
-final class RMEpisodeDetailView: UIView {
+final class RMLocationDetailView: UIView {
     
-    public weak var delegate: RMEpisodeDetailViewDelegate?
+    public weak var delegate: RMLocationDetailViewDelegate?
     
-    private var viewModel: RMEpisodeDetailViewViewModel? {
+    private var viewModel: RMLocationDetailViewViewModel? {
         didSet {
             spinner.stopAnimating()
             self.collectionView?.reloadData()
@@ -90,14 +90,14 @@ final class RMEpisodeDetailView: UIView {
     
     // MARK: - Public
     
-    func configure(with viewModel: RMEpisodeDetailViewViewModel) {
+    func configure(with viewModel: RMLocationDetailViewViewModel) {
         self.viewModel = viewModel
     }
 }
 
 // MARK: - CollectionView delegates
 
-extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension RMLocationDetailView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         viewModel?.cellViewModels.count ?? 0
@@ -153,7 +153,7 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
-extension RMEpisodeDetailView {
+extension RMLocationDetailView {
     private func layout(for section: Int) -> NSCollectionLayoutSection {
         guard let sections = viewModel?.cellViewModels else {
             return createInfoLayout() }
