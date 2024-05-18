@@ -64,7 +64,7 @@ extension RMSearchOptionPickerViewController: UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let choice = option.choices[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = choice.uppercased()
+        cell.textLabel?.text = choice.capitalized
         return cell
     }
     

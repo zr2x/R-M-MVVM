@@ -18,7 +18,7 @@ final class RMSearchViewController: UIViewController {
         enum `Type` {
             case character
             case location
-            case episodes
+            case episode
             
             
             var title: String {
@@ -27,8 +27,19 @@ final class RMSearchViewController: UIViewController {
                     return "Search characters"
                 case .location:
                     return "Search locations"
-                case .episodes:
+                case .episode:
                     return "Search episodes"
+                }
+            }
+            
+            var endpoint: RMEndpoint {
+                switch self {
+                case .character:
+                    return .character
+                case .episode:
+                    return .episode
+                case .location:
+                    return .location
                 }
             }
         }

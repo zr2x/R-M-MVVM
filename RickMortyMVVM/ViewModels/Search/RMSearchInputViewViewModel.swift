@@ -25,6 +25,17 @@ final class RMSearchInputViewViewModel {
                 return ["cluster", "planet", "microverse"]
             }
         }
+        
+        var queryArgument: String {
+            switch self {
+            case .status:
+                return "status"
+            case .gender:
+                return "gender"
+            case .locationType:
+                return "type"
+            }
+        }
     }
     
     // MARK: - Init
@@ -39,7 +50,7 @@ final class RMSearchInputViewViewModel {
         switch self.type {
         case .character, .location:
             return true
-        case .episodes:
+        case .episode:
             return false
         }
     }
@@ -50,7 +61,7 @@ final class RMSearchInputViewViewModel {
             return [.status, .gender]
         case .location:
             return [.locationType]
-        case .episodes:
+        case .episode:
             return []
         }
     }
@@ -61,7 +72,7 @@ final class RMSearchInputViewViewModel {
             return "Character name"
         case .location:
             return "Location name"
-        case .episodes:
+        case .episode:
             return "Episode title"
         }
     }

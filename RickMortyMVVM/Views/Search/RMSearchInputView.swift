@@ -129,7 +129,7 @@ final class RMSearchInputView: UIView {
               let index = options.firstIndex(of: option) else { return }
         
         buttons[index].setAttributedTitle(NSAttributedString(
-            string: value.uppercased(), attributes: [
+            string: value.capitalized, attributes: [
                         .font : UIFont.systemFont(
                         ofSize: 18,
                         weight: .medium),
