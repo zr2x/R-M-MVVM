@@ -18,6 +18,7 @@ class RMSearchView: UIView {
     // MARK: - Subviews
     private let searchInputView = RMSearchInputView()
     private let noResultsView = RMNoSearchResultsView()
+    private let resultsView = RMSearchResultView()
 
     // MARK: - Init
     init(frame: CGRect, viewModel: RMSearchViewViewModel) {
@@ -25,19 +26,12 @@ class RMSearchView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(noResultsView, searchInputView)
+        addSubviews(noResultsView, searchInputView, resultsView)
         setupConstraints()
         
         searchInputView.configure(with: RMSearchInputViewViewModel(type: viewModel.config.type))
         searchInputView.delegate = self
-        
-        viewModel.registerOptionChangeBlock { tuple in
-            self.searchInputView.update(option: tuple.0, value: tuple.1)
-        }
-        
-        viewModel.registerSearchResultHandler { results in
-            print(results)
-        }
+        setupHandlers(viewModel: viewModel)
     }
     
     required init?(coder: NSCoder) {
@@ -54,8 +48,36 @@ class RMSearchView: UIView {
             searchInputView.topAnchor.constraint(equalTo: topAnchor),
             searchInputView.leadingAnchor.constraint(equalTo: leadingAnchor),
             searchInputView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            searchInputView.heightAnchor.constraint(equalToConstant: viewModel.config.type == .episode ? 55 : 110)
+            searchInputView.heightAnchor.constraint(equalToConstant: viewModel.config.type == .episode ? 55 : 110),
+            
+            resultsView.topAnchor.constraint(equalTo: searchInputView.bottomAnchor,constant: 10),
+            resultsView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            resultsView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            resultsView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
+    }
+    
+    private func setupHandlers(viewModel: RMSearchViewViewModel) {
+        viewModel.registerOptionChangeBlock { tuple in
+            self.searchInputView.update(option: tuple.0, value: tuple.1)
+        }
+        
+        viewModel.registerSearchResultHandler { [weak self] results in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.resultsView.configure(wth: results)
+                self.noResultsView.isHidden = true
+                self.resultsView.isHidden = false
+            }
+        }
+        
+        viewModel.registerNoResultsHandler { [weak self] in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.noResultsView.isHidden = false
+                self.resultsView.isHidden = true
+            }
+        }
     }
     
     // MARK: - Public

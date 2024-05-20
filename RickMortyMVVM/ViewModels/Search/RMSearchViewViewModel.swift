@@ -13,6 +13,7 @@ final class RMSearchViewViewModel {
     private var optionMapUpdateBlock: (((RMSearchInputViewViewModel.DynamicOption, String))-> Void)?
     private var searchText: String = ""
     private var searchResultHandler: ((RMSearchResultViewModel)->Void)?
+    private var noResultsHandler: (() -> Void)?
     
     let config: RMSearchViewController.Config
     
@@ -25,11 +26,12 @@ final class RMSearchViewViewModel {
     
     private func makeSearchAPICall<T: Codable>(_ type: T.Type, request: RMRequest) {
         RMService.shared.execute(request, expecting: type) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let model):
-                self?.processSearchResults(model: model)
-            case .failure(let failure):
-                print(failure)
+                self.processSearchResults(model: model)
+            case .failure:
+                self.handleNoResults()
             }
         }
     }
@@ -55,8 +57,12 @@ final class RMSearchViewViewModel {
         if let results = resultsViewModel {
             searchResultHandler?(results)
         } else {
-            // TODO: handle error
+            handleNoResults()
         }
+    }
+    
+    private func handleNoResults() {
+        noResultsHandler?()
     }
     
     // MARK: - Public
@@ -80,7 +86,7 @@ final class RMSearchViewViewModel {
             return URLQueryItem(name: key.queryArgument, value: value)
             
         }))
-        var request = RMRequest(endpoint: config.type.endpoint,
+        let request = RMRequest(endpoint: config.type.endpoint,
                                 queryParameters: queryParam)
         switch config.type.endpoint {
             case .character:
@@ -94,6 +100,10 @@ final class RMSearchViewViewModel {
     
     public func registerSearchResultHandler(_ block: @escaping (RMSearchResultViewModel) -> Void) {
         self.searchResultHandler = block
+    }
+    
+    public func registerNoResultsHandler(_ block: @escaping () -> Void) {
+        self.noResultsHandler = block
     }
     
     public func set(updatedText text: String) {
