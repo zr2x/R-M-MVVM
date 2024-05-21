@@ -70,10 +70,9 @@ final class RMLocationTableViewCell: UITableViewCell {
         ])
     }
     
-    public func cofigure(with viewModel: RMLocationTableViewCellViewModel) {
+    public func configure(with viewModel: RMLocationTableViewCellViewModel) {
         nameLabel.text = viewModel.name
         typeLabel.text = viewModel.type
         dimensionLabel.text = viewModel.dimension
     }
-
 }

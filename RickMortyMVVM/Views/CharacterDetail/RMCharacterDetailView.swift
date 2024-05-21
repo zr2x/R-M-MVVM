@@ -26,7 +26,6 @@ final class RMCharacterDetailView: UIView {
     init(frame: CGRect, viewModel: RMCharacterDetailViewViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
-        backgroundColor = .yellow
         translatesAutoresizingMaskIntoConstraints = false
         setupView()
         setupConstraints()

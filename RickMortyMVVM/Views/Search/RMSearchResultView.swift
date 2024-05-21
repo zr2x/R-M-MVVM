@@ -7,9 +7,16 @@
 
 import UIKit
 
+protocol RMSearchResultViewDelegate: AnyObject {
+    func rmSearchResultView(_ resultView: RMSearchResultView, didTapLocationAt index: Int)
+}
+
 /// Shows search results (table/collectionView as needed)
 final class RMSearchResultView: UIView {
-
+    
+    private var locationViewModels: [RMLocationTableViewCellViewModel] = []
+    weak var delegate: RMSearchResultViewDelegate?
+    
     private var viewModel: RMSearchResultViewModel? {
         didSet {
             processViewModel()
@@ -38,7 +45,8 @@ final class RMSearchResultView: UIView {
         super.init(frame: frame)
         isHidden = true
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(tableView/*, collectionView*/)
+        backgroundColor = .systemBackground
+        addSubviews(tableView)
         setupConstraints()
     }
     
@@ -60,8 +68,6 @@ final class RMSearchResultView: UIView {
 //            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
 //            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
-        
-        tableView.backgroundColor = .systemBlue
     }
     
     private func processViewModel() {
@@ -72,8 +78,8 @@ final class RMSearchResultView: UIView {
             setupCollectionView()
         case .episodes(let models):
             setupCollectionView()
-        case .locations(let models):
-            setupTableView()
+        case .locations(let viewModels):
+            setupTableView(viewModels: viewModels)
         }
     }
 
@@ -81,14 +87,39 @@ final class RMSearchResultView: UIView {
         
     }   
     
-    private func setupTableView() {
+    private func setupTableView(viewModels: [RMLocationTableViewCellViewModel]) {
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.isHidden = false
+        self.locationViewModels = viewModels
+        tableView.reloadData()
     }
     
     // MARK: - Public
     
-    public func configure(wth viewModel: RMSearchResultViewModel) {
+    public func configure(with viewModel: RMSearchResultViewModel) {
         self.viewModel = viewModel
     }
+}
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension RMSearchResultView: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        locationViewModels.count
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RMLocationTableViewCell.identifire, for: indexPath) as? RMLocationTableViewCell else {
+            return UITableViewCell()
+        }
+        let viewModel = locationViewModels[indexPath.row]
+        cell.configure(with: viewModel)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        delegate?.rmSearchResultView(self, didTapLocationAt: indexPath.row)
+    }
 }

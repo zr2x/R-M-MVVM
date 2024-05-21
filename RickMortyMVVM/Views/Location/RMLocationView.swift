@@ -98,7 +98,7 @@ extension RMLocationView: UITableViewDelegate, UITableViewDataSource {
             for: indexPath) as? RMLocationTableViewCell else {
             return UITableViewCell()
         }
-        cell.cofigure(with: cellViewModel)
+        cell.configure(with: cellViewModel)
         return cell
     }
     

@@ -65,7 +65,7 @@ final class RMSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = viewModel.config.type.title
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .systemBackground
         view.addSubview(searchView)
         setupConstraints()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search",
@@ -106,5 +106,11 @@ extension RMSearchViewController: RMSearchViewDelegate {
         vc.sheetPresentationController?.detents = [.medium()]
         vc.sheetPresentationController?.prefersGrabberVisible = true
         present(vc, animated: true)
+    }
+    
+    func rmSearchView(_ searchView: RMSearchView, didSelectLocation location: RMLocation) {
+        let vc = RMLocationDetailViewController(location: location)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
