@@ -14,7 +14,10 @@ protocol RMSearchResultViewDelegate: AnyObject {
 /// Shows search results (table/collectionView as needed)
 final class RMSearchResultView: UIView {
     
+    
+    /// TableView viewModels
     private var locationViewModels: [RMLocationTableViewCellViewModel] = []
+    /// CollectionView viewModels
     private var collectionViewModels: [any Hashable] = []
     weak var delegate: RMSearchResultViewDelegate?
     
@@ -80,7 +83,7 @@ final class RMSearchResultView: UIView {
     private func processViewModel() {
         guard let viewModel = viewModel else { return }
         
-        switch viewModel {
+        switch viewModel.results {
         case .characters(let viewModels):
             collectionViewModels = viewModels
             setupCollectionView()
@@ -89,8 +92,7 @@ final class RMSearchResultView: UIView {
             setupCollectionView()
         case .locations(let viewModels):
             setupTableView(viewModels: viewModels)
-        }
-    }
+        }    }
 
     private func setupCollectionView() {
         tableView.isHidden = true
@@ -183,3 +185,46 @@ extension RMSearchResultView: UICollectionViewDelegateFlowLayout, UICollectionVi
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
+
+// MARK: - UIScrollViewDelegate
+extension RMSearchResultView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        handleLocationPagination(scrollView: scrollView)
+    }
+    
+    private func handleLocationPagination(scrollView: UIScrollView) {
+        guard let viewModel = viewModel,
+              !locationViewModels.isEmpty,
+              viewModel.shouldShowLoadMoreIndicator,
+              !viewModel.isLoadingMoreResults else {
+             return }
+        
+        
+        Timer.scheduledTimer(withTimeInterval: 0.0, repeats: false) { [weak self] t in
+            let offset = scrollView.contentOffset.y
+            let totalContentHeight = scrollView.contentSize.height
+            let totalScrollViewFixedHeight = scrollView.frame.size.height
+            
+            if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
+                DispatchQueue.main.async {
+                    self?.showLoadingIndicator()
+                }
+                self?.viewModel?.fetchAdditionalLocations { [weak self] newResuls in
+                    self?.tableView.tableFooterView = nil
+                    self?.locationViewModels = newResuls
+                    self?.tableView.reloadData()
+                }
+            }
+            t.invalidate()
+        }
+    }
+    
+    private func showLoadingIndicator() {
+        let footer = RMTableFooterView(frame: CGRect(x: 0,
+                                                     y: 0,
+                                                     width: frame.size.width,
+                                                     height: 100))
+        tableView.tableFooterView = footer
+    }
+}
+

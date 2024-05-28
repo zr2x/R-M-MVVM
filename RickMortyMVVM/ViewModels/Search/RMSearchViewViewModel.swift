@@ -38,7 +38,8 @@ final class RMSearchViewViewModel {
     }
     
     private func processSearchResults(model: Codable) {
-        var resultsViewModel: RMSearchResultViewModel?
+        var resultsViewModel: RMSearchResultViewType?
+        var nextUrl: String?
         if let characterResults = model as? RMGetAllCharactersResponse {
             resultsViewModel = .characters(characterResults.results.compactMap({
                 return RMCharacterCollectionViewCellViewModel(
@@ -46,18 +47,22 @@ final class RMSearchViewViewModel {
                     characterStatus: $0.status,
                     characterImageUrl: URL(string: $0.image))
             }))
+            nextUrl = characterResults.info.next
         } else if let episodesResults = model as? RMGetAllEpisodesResponse {
             resultsViewModel = .episodes(episodesResults.results.compactMap({
                 return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0.url))
             }))
+            nextUrl = episodesResults.info.next
         } else if let locationResults = model as? RMGetAllLocationsResponse {
             resultsViewModel = .locations(locationResults.results.compactMap({
                 return RMLocationTableViewCellViewModel(location: $0)
             }))
+            nextUrl = locationResults.info.next
         }
         if let results = resultsViewModel {
             searchResultModel = model
-            searchResultHandler?(results)
+            let viewModel = RMSearchResultViewModel(results: results, next: nextUrl)
+            searchResultHandler?(viewModel)
         } else {
             handleNoResults()
         }
@@ -80,6 +85,7 @@ final class RMSearchViewViewModel {
     }
     
     public func executeSearch() {
+        guard !searchText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         var queryParam: [URLQueryItem] = [URLQueryItem(name: "name", value: searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))]
         
         queryParam.append(contentsOf: optionMap.enumerated().compactMap({ _, element in
