@@ -122,6 +122,9 @@ final class RMSearchViewViewModel {
         guard let searchModel = searchResultModel as? RMGetAllLocationsResponse else {
             return nil
         }
-        return searchModel.results[index]
+        if index <= searchModel.results.count {
+            return searchModel.results[index]
+        }
+        return nil
     }
 }
