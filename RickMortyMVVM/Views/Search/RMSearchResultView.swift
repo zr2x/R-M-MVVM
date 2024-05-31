@@ -168,14 +168,16 @@ extension RMSearchResultView: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let bounds = UIScreen.main.bounds
+        let bounds = collectionView.bounds
+        
         let currentViewModel = collectionViewModels[indexPath.row]
+        
         if currentViewModel is RMCharacterCollectionViewCellViewModel {
-            let width = (bounds.width - 30)/2
+            let width = UIDevice.isIphone ? (bounds.width - 30)/2 : (bounds.width - 50)/3
             return CGSize(width: width, height: width * 1.5)
             
         } else if currentViewModel is RMCharacterEpisodeCollectionViewCellViewModel {
-            let width = (bounds.width - 20)
+            let width = UIDevice.isIphone ? (bounds.width - 20) : (bounds.width - 50)/4
             return CGSize(width: width, height: 100)
         }
         return .zero
