@@ -9,6 +9,8 @@ import UIKit
 
 protocol RMSearchResultViewDelegate: AnyObject {
     func rmSearchResultView(_ resultView: RMSearchResultView, didTapLocationAt index: Int)
+    func rmSearchResultView(_ resultView: RMSearchResultView, didTapCharacternAt index: Int)
+    func rmSearchResultView(_ resultView: RMSearchResultView, didTapLEpisodeAt index: Int)
 }
 
 /// Shows search results (table/collectionView as needed)
@@ -37,7 +39,7 @@ final class RMSearchResultView: UIView {
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isHidden = true
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -185,6 +187,17 @@ extension RMSearchResultView: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        switch viewModel?.results {
+        case .characters:
+            delegate?.rmSearchResultView(self, didTapCharacternAt: indexPath.row)
+        case .episodes:
+            delegate?.rmSearchResultView(self, didTapLEpisodeAt: indexPath.row)
+        case .locations:
+            break // handle in tableView
+        default:
+            break
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

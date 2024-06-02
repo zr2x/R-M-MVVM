@@ -127,4 +127,22 @@ final class RMSearchViewViewModel {
         }
         return nil
     }
+    
+    public func characterSearchResult(at index: Int) -> RMCharacter? {
+        guard let searchModel = searchResultModel as? RMGetAllCharactersResponse else {
+            return nil }
+        if index <= searchModel.results.count {
+            return searchModel.results[index]
+        }
+        return nil
+    }
+    
+    public func episodeSearchResult(at index: Int) -> RMEpisode? {
+        guard let searchModel = searchResultModel as? RMGetAllEpisodesResponse else {
+            return nil }
+        if index <= searchModel.results.count {
+            return searchModel.results[index]
+        }
+        return nil
+    }
 }
